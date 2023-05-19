@@ -31,9 +31,9 @@ else:
 
 
 coauthor_covid, ct, ca = coauthor_covid.to(device), ct.to(device), ca.to(device)
-g = dgl.graph((coauthor_covid[:, 0], coauthor_covid[:, 1]), num_nodes = len(ct), device=device)
+g = dgl.graph((torch.cat((coauthor_covid[:, 0], coauthor_covid[:, 1])), torch.cat((coauthor_covid[:, 1], coauthor_covid[:, 0]))), num_nodes = len(ct), device=device)
 g.ndata['ct'] = ct
 g.ndata['ca'] = ca
-g.edata['t'] = coauthor_covid[:, 2]
+g.edata['t'] = torch.cat((coauthor_covid[:, 2], coauthor_covid[:, 2]))
 
 print(g)
