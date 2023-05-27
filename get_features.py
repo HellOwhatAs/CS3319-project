@@ -1,48 +1,46 @@
-import numpy
-import json, torch, os
+import torch
 import networkx as nx
+import dgl
+from draft import coauthor_covid, g
 
-from draft import authors_to_pred, coauthor_covid, idx2ct, ct2idx, max_field, ct, ca
-
-
-# print("authors_to_pred:", authors_to_pred[0])
-# print("coauthor_covid:", coauthor_covid.shape) # (875873, 3)
-# print("ct:", ct.shape) # (1275456)
-# print("ca:", ca.shape) # (1275456, 22)
-
-def normal(dic):
-    max_value = max(dic.values())
-    min_value = min(dic.values())
-    normalized_dict = {k: (v - min_value) / (max_value - min_value) for k, v in dic.items()}
-    return normalized_dict
-
-def get_features():
+def get_features(g: dgl.DGLGraph):
     G = nx.Graph()
-    G0 = nx.Graph()
-    G.add_nodes_from([i for i in range(1275456)])
-    # print(G.nodes())
-    # print(coauthor_covid[:, :2].tolist()[:10])
-    G0.add_edges_from(coauthor_covid[:, :2].tolist())
+    G.add_nodes_from(range(g.num_nodes()))
     G.add_weighted_edges_from(coauthor_covid.tolist())
-    print('construct graph ok.')
+    G0 = nx.Graph()
+    G0.add_edges_from(coauthor_covid[:, :2].tolist())
 
-    # print(nx.is_connected(G))
-    # G.remove_nodes_from(nx.isolates(G.copy()))
-    # print(nx.is_connected(G))
-
-    k = 10
-    DEG = nx.degree_centrality(G0)
-    DEG = normal(DEG)
-    BC = nx.betweenness_centrality(G0, k) 
-    BC = normal(BC)
-    EBC = nx.edge_betweenness_centrality(G, k, weight='weight')  # 边的特征
-    EBC = normal(EBC)
+    DEG = nx.degree_centrality(G)
+    BC = nx.betweenness_centrality(G0, 10)
     EVC = nx.eigenvector_centrality(G, weight='weight')
-    EVC = normal(EVC)
 
-    # KATZ = nx.katz_centrality(G, weight='weight') # 这两个很慢，没跑出来
-    # KATZ = normal(KATZ)
-    # CC = nx.closeness_centrality(G)
-    # CC = normal(CC)
+    feature_dicts = [DEG, BC, EVC]
 
-    return DEG, BC, EBC, EVC
+    res = torch.zeros((g.num_nodes(), len(feature_dicts)))
+    for feat_id, feat_dict in enumerate(feature_dicts):
+        for k, v in feat_dict.items():
+            res[k, feat_id] = v
+
+        res[:, feat_id] -= res[:, feat_id].min()
+        res[:, feat_id] /= res[:, feat_id].max()
+    
+    return res
+
+if __name__ == '__main__':
+    pos = get_features(g)
+
+    from sklearn.cluster import KMeans
+    bc_idx = torch.argmax(pos[:, 1]).item()
+    evc_idx = torch.argmax(pos[:, 2]).item()
+    classes = KMeans(n_clusters=3, init=[pos[bc_idx].numpy(), pos[evc_idx].numpy(), [0, 0, 0]], n_init=1).fit_predict(pos)
+
+    import plotly.express as px
+    import pandas as pd
+
+    non_zero = pos.square().sum(1) > 0
+    df = pd.DataFrame(pos[non_zero], columns=['DEG', 'BC', 'EVC'])
+    df['classes'] = classes[non_zero]
+
+    fig = px.scatter_3d(df, x='DEG', y='BC', z='EVC', color='classes')
+    with open('cluster_result.html', 'w', encoding='utf-8') as f:
+        f.write(fig.to_html())
