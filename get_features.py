@@ -1,7 +1,8 @@
-import torch
+import torch, os
 import networkx as nx
 import dgl
 from draft import coauthor_covid, g
+from sklearn.cluster import KMeans
 
 def get_features(g: dgl.DGLGraph):
     G = nx.Graph()
@@ -26,14 +27,22 @@ def get_features(g: dgl.DGLGraph):
     
     return res
 
-if __name__ == '__main__':
+if not os.path.exists('./cluster_label.bin'):
     pos = get_features(g)
-
-    from sklearn.cluster import KMeans
     bc_idx = torch.argmax(pos[:, 1]).item()
     evc_idx = torch.argmax(pos[:, 2]).item()
-    classes = KMeans(n_clusters=3, init=[pos[bc_idx].numpy(), pos[evc_idx].numpy(), [0, 0, 0]], n_init=1).fit_predict(pos)
+    classes = KMeans(n_clusters=3, init=[pos[bc_idx].numpy(), pos[evc_idx].numpy(), [0, 0, 0]], n_init=1).fit_predict(
+        pos,
+        sample_weight = g.ndata['feat'][:, 1:].sum(1).cpu().numpy()
+    )
+    bc_class, evc_class = classes[bc_idx], classes[evc_idx]
 
+    torch.save((torch.from_numpy(classes), pos, {'bc_class': bc_class, 'evc_class': evc_class}), './cluster_label.bin')
+else:
+    classes, pos, class_name = torch.load('./cluster_label.bin')
+    bc_class, evc_class = class_name['bc_class'], class_name['evc_class']
+
+if __name__ == '__main__':
     import plotly.express as px
     import pandas as pd
 
