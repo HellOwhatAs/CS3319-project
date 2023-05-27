@@ -36,8 +36,9 @@ if not os.path.exists('./cluster_label.bin'):
         sample_weight = g.ndata['feat'][:, 1:].sum(1).cpu().numpy()
     )
     bc_class, evc_class = classes[bc_idx], classes[evc_idx]
+    classes = torch.from_numpy(classes)
 
-    torch.save((torch.from_numpy(classes), pos, {'bc_class': bc_class, 'evc_class': evc_class}), './cluster_label.bin')
+    torch.save((classes, pos, {'bc_class': bc_class, 'evc_class': evc_class}), './cluster_label.bin')
 else:
     classes, pos, class_name = torch.load('./cluster_label.bin')
     bc_class, evc_class = class_name['bc_class'], class_name['evc_class']
@@ -46,9 +47,12 @@ if __name__ == '__main__':
     import plotly.express as px
     import pandas as pd
 
-    non_zero = pos.square().sum(1) > 0
+    non_zero = g.ndata['feat'][:, 1:].sum(1) > 3
     df = pd.DataFrame(pos[non_zero], columns=['DEG', 'BC', 'EVC'])
     df['classes'] = classes[non_zero]
+
+    from collections import Counter
+    print(Counter(classes.numpy()))
 
     fig = px.scatter_3d(df, x='DEG', y='BC', z='EVC', color='classes')
     with open('cluster_result.html', 'w', encoding='utf-8') as f:

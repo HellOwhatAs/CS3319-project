@@ -43,4 +43,5 @@ if __name__ == '__main__':
     explainer = GNNExplainer(model, num_hops=1)
     new_center, sg, feat_mask, edge_mask = explainer.explain_node(authors_to_pred[0].item(), g, features)
 
-    print(sg)
+    dgl.save_graphs('g.bin', [g])
+    dgl.save_graphs('sg.bin', [sg])
