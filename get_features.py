@@ -29,11 +29,18 @@ def get_features():
     # print(nx.is_connected(G))
 
     k = 10
+    DEG = nx.degree_centrality(G)
+    DEG = normal(DEG)
     BC = nx.betweenness_centrality(G, k) 
     BC = normal(BC)
-    EBC = nx.edge_betweenness_centrality(G, k, weight='weight') 
+    EBC = nx.edge_betweenness_centrality(G, k, weight='weight')  # 边的特征
     EBC = normal(EBC)
     EVC = nx.eigenvector_centrality(G, weight='weight')
     EVC = normal(EVC)
 
-    return BC, EBC, EVC
+    # KATZ = nx.katz_centrality(G, weight='weight') # 这两个很慢，没跑出来
+    # KATZ = normal(KATZ)
+    # CC = nx.closeness_centrality(G)
+    # CC = normal(CC)
+
+    return DEG, BC, EBC, EVC
