@@ -36,19 +36,22 @@ else:
 # print("ct:", ct.shape) # (1275456)
 # print("ca:", ca.shape) # (1275456, 22)
 
-G = nx.Graph()
-G.add_nodes_from([i for i in range(1275456)])
-# print(G.nodes())
-# print(coauthor_covid[:, :2].tolist()[:10])
-G.add_edges_from(coauthor_covid[:, :2].tolist())
-print('construct graph ok.')
+def get_features():
+    G = nx.Graph()
+    G.add_nodes_from([i for i in range(1275456)])
+    # print(G.nodes())
+    # print(coauthor_covid[:, :2].tolist()[:10])
+    G.add_edges_from(coauthor_covid[:, :2].tolist())
+    print('construct graph ok.')
 
-# print(nx.is_connected(G))
-G.remove_nodes_from(nx.isolates(G.copy()))
-# print(nx.is_connected(G))
+    # print(nx.is_connected(G))
+    G.remove_nodes_from(nx.isolates(G.copy()))
+    # print(nx.is_connected(G))
 
 
-k = 10
-BC = nx.betweenness_centrality(G, k) 
-EBC = nx.edge_betweenness_centrality(G, k, weight='weight') 
-EVC = nx.eigenvector_centrality(G, weight='weight')
+    k = 10
+    BC = nx.betweenness_centrality(G, k) 
+    EBC = nx.edge_betweenness_centrality(G, k, weight='weight') 
+    EVC = nx.eigenvector_centrality(G, weight='weight')
+
+    return BC, EBC, EVC
