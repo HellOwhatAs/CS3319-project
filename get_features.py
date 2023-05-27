@@ -36,6 +36,12 @@ else:
 # print("ct:", ct.shape) # (1275456)
 # print("ca:", ca.shape) # (1275456, 22)
 
+def normal(dic):
+    max_value = max(dic.values())
+    min_value = min(dic.values())
+    normalized_dict = {k: (v - min_value) / (max_value - min_value) for k, v in dic.items()}
+    return normalized_dict
+
 def get_features():
     G = nx.Graph()
     G.add_nodes_from([i for i in range(1275456)])
@@ -48,10 +54,12 @@ def get_features():
     G.remove_nodes_from(nx.isolates(G.copy()))
     # print(nx.is_connected(G))
 
-
     k = 10
     BC = nx.betweenness_centrality(G, k) 
+    BC = normal(BC)
     EBC = nx.edge_betweenness_centrality(G, k, weight='weight') 
+    EBC = normal(EBC)
     EVC = nx.eigenvector_centrality(G, weight='weight')
+    EVC = normal(EVC)
 
     return BC, EBC, EVC
