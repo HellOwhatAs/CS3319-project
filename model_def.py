@@ -1,11 +1,11 @@
-import dgl.nn as dglnn
+import dgl.nn.pytorch as dglnn
 import torch.nn as nn
 import torch.nn.functional as F
 import torch, copy
 
 class GNN(nn.Module):
-    def __init__(self, input_dim, hidden_dim, output_dim, num_layers,
-                 dropout, return_embeds=False):
+    def __init__(self, input_dim, hidden_dim, output_dim, num_layers = 2,
+                 dropout = 0.5, return_embeds = False):
         super(GNN, self).__init__()
         
         aggregator_type = 'mean'
@@ -29,13 +29,13 @@ class GNN(nn.Module):
         for bn in self.bns:
             bn.reset_parameters()
 
-    def forward(self, adj_t, x):
+    def forward(self, graph, feat, eweight = None):
 
         for conv, bn in zip(self.convs, self.bns):
-            x = F.dropout(F.relu(bn(conv(adj_t, x, edge_weight = adj_t.edata['t']))), p = self.dropout, training = self.training)
-        x = self.convs[-1](adj_t, x, edge_weight = adj_t.edata['t'])
+            feat = F.dropout(F.relu(bn(conv(graph, feat, edge_weight = eweight))), p = self.dropout, training = self.training)
+        feat = self.convs[-1](graph, feat, edge_weight = eweight)
 
-        return x if self.return_embeds else self.softmax(x)
+        return feat if self.return_embeds else self.softmax(feat)
     
 
 
@@ -51,7 +51,7 @@ def train(model, g, optimizer, loss_fn, max_epoch):
     
     for e in range(max_epoch):
         
-        output = model(g, features)
+        output = model(g, features, edge_weight = g.edata['t'])
         loss = loss_fn(output[train_mask], labels[train_mask])
         val_acc = torch.sum(output[val_mask].max(1)[1] == labels[val_mask]) / torch.sum(val_mask)
         
