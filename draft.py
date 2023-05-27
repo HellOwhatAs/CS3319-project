@@ -37,8 +37,4 @@ g.ndata['feat'] = torch.cat((torch.unsqueeze(ct, dim=1), ca), dim=1).float()
 g.ndata['label'] = torch.ones(ct.shape, device=device, dtype=torch.int64)                          # TODO: label 是什么呢？
 g.ndata['test_mask'] = torch.zeros(ct.shape, dtype=torch.bool, device=device)
 g.ndata['test_mask'][authors_to_pred] = True
-
-g.ndata['val_mask'] = torch.zeros(ct.shape, dtype=torch.bool, device=device)
-g.ndata['val_mask'][torch.nonzero(~g.ndata['test_mask'])[:len(authors_to_pred)]] = True
-
-g.ndata['train_mask'] = ~(g.ndata['val_mask'] | g.ndata['test_mask'])
+g.ndata['train_mask'] = ~g.ndata['test_mask']
