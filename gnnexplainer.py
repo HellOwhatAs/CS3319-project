@@ -41,7 +41,6 @@ if __name__ == '__main__':
             tbar.update()
 
     explainer = GNNExplainer(model, num_hops=1)
-    new_center, sg, feat_mask, edge_mask = explainer.explain_node(authors_to_pred[0].item(), g, features)
+    new_center, sg, feat_mask, edge_mask = explainer.explain_node(36291, g, features)
 
-    dgl.save_graphs('g.bin', [g])
-    dgl.save_graphs('sg.bin', [sg])
+    print(sg)
