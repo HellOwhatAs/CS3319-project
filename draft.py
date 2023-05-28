@@ -38,3 +38,6 @@ g.ndata['old_id'] = g.nodes()
 g = dgl.node_subgraph(g, authors_to_pred.to(device))
 new2old = authors_to_pred.numpy()
 old2new = {elem: i for i, elem in enumerate(authors_to_pred.numpy())}
+test_mask = torch.zeros(g.ndata['old_id'].shape, device=device, dtype=torch.bool)
+test_mask[::4] = 1
+g.ndata['test_mask'] = test_mask

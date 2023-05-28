@@ -18,6 +18,8 @@ if __name__ == '__main__':
 
     features = g.ndata['feat']
     labels = g.ndata['label']
+    test_mask = g.ndata['test_mask']
+    train_mask = ~test_mask
 
     model = Model(features.shape[1], 128, 3).to(device)
     criterion = nn.CrossEntropyLoss()
@@ -25,13 +27,13 @@ if __name__ == '__main__':
     with tqdm(range(2000)) as tbar:
         for epoch in tbar:
             logits = model(g, features)
-            loss = criterion(logits, labels)
+            loss = criterion(logits[train_mask], labels[train_mask])
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
             with torch.no_grad():
-                acc = (labels == torch.argmax(logits, 1)).sum() / labels.shape[0]
+                acc = (labels[test_mask] == torch.argmax(logits[test_mask], 1)).sum() / test_mask.sum()
             tbar.set_postfix(loss = loss.item(), acc = acc.item())
             tbar.update()
 
