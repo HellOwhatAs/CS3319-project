@@ -7,6 +7,20 @@ from model_def import GNN as Model
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from get_features import classes as cluster_label
+from mycsv import csv
+
+def calc_sgmask(g, sg, k2idx):
+    node_sg = ['0'] * g.num_nodes()
+    for i in sg.ndata['ori_id'].cpu().numpy():
+        node_sg[i] = '1'
+
+    edge_sg = ['0'] * (g.num_edges() // 2)
+    for s, t in zip(*sg.edges()):
+        s, t = sg.ndata['ori_id'][s].item(), sg.ndata['ori_id'][t].item()
+        k = f'{min(s, t)},{max(s, t)}'
+        edge_sg[k2idx[k]] = '1'
+
+    return node_sg, edge_sg
 
 if __name__ == '__main__':
 
@@ -15,6 +29,7 @@ if __name__ == '__main__':
     from draft import g, old2new
 
     g.ndata['label'] = cluster_label.to(device).long()
+    g.ndata['ori_id'] = g.nodes()
 
     features = g.ndata['feat']
     labels = g.ndata['label']
@@ -37,9 +52,23 @@ if __name__ == '__main__':
             tbar.set_postfix(loss = loss.item(), acc = acc.item())
             tbar.update()
 
-    explainer = GNNExplainer(model, num_hops=1)
-    new_center, sg, feat_mask, edge_mask = explainer.explain_node(old2new[36291], g, features)
+    node_csv = csv.read('./node.csv')
+    edge_csv = csv.read('./edge.csv')
+    node_csv['label'] = [str(g.ndata['old_id'][i].item()) for i in g.nodes()]
+    st = [f'{min(int(s), int(t))},{max(int(s), int(t))}' for s, t in zip(edge_csv['source'], edge_csv['target'])]
+    k2idx = {elem: idx for idx, elem in enumerate(st)}
 
-    print(new_center, sg, feat_mask, edge_mask, sep='\n')
-    print()
-    print(sg.ndata['old_id'])
+    explainer = GNNExplainer(model, num_hops=1)
+    new_center, sg, feat_mask, edge_mask = explainer.explain_node(old2new[36291], g, features) # 36291: 桥梁节点; 528886: 中心节点; 7976: 边缘节点
+    node_csv['node_sg_bridge'], edge_csv['edge_sg_bridge'] = calc_sgmask(g, sg, k2idx)
+
+    explainer = GNNExplainer(model, num_hops=1)
+    new_center, sg, feat_mask, edge_mask = explainer.explain_node(old2new[528886], g, features)
+    node_csv['node_sg_center'], edge_csv['edge_sg_center'] = calc_sgmask(g, sg, k2idx)
+
+    explainer = GNNExplainer(model, num_hops=1)
+    new_center, sg, feat_mask, edge_mask = explainer.explain_node(old2new[7976], g, features)
+    node_csv['node_sg_margin'], edge_csv['edge_sg_margin'] = calc_sgmask(g, sg, k2idx)
+
+    node_csv.write('node_sg.csv')
+    edge_csv.write('edge_sg.csv')
