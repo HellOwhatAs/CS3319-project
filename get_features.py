@@ -1,19 +1,19 @@
 import torch, os
 import networkx as nx
 import dgl
-from draft import coauthor_covid, g
+from draft import coauthor_covid, g, old2new
 from sklearn.cluster import KMeans
 
 def get_features(g: dgl.DGLGraph):
     G = nx.Graph()
     G.add_nodes_from(range(g.num_nodes()))
-    G.add_weighted_edges_from(coauthor_covid.tolist())
+    G.add_weighted_edges_from([[old2new[s], old2new[e], w] for s, e, w in coauthor_covid.cpu().numpy()])
     G0 = nx.Graph()
-    G0.add_edges_from(coauthor_covid[:, :2].tolist())
+    G0.add_edges_from([[old2new[s], old2new[e]] for s, e, w in coauthor_covid.cpu().numpy()])
 
     DEG = nx.degree_centrality(G)
-    BC = nx.betweenness_centrality(G0, 10)
-    EVC = nx.eigenvector_centrality(G, weight='weight')
+    BC = nx.betweenness_centrality(G0, 1000)
+    EVC = nx.eigenvector_centrality(G, max_iter = 1000, weight='weight')
 
     feature_dicts = [DEG, BC, EVC]
 

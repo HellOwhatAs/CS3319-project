@@ -1,22 +1,28 @@
 from tqdm import tqdm
-# from get_features import classes as cluster_label
-from draft import g, authors_to_pred, coauthor_covid
+from get_features import classes as cluster_label
+from draft import g, old2new
 import torch
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-# label = g.ndata['label'] = cluster_label.to(device).long()
-features = g.ndata['feat']
-train_mask = g.ndata['train_mask']
+# g.ndata['label'] = cluster_label.to(device).long()
 
-edged_node = set(g.edges()[0].cpu().numpy()).union(g.edges()[1].cpu().numpy())
+# with open('node.csv', 'w') as f:
+#     f.write('id,mylabel,num_fields\n')
+#     f.writelines(tqdm((','.join(str(int(j)) for j in i) + '\n' for i in zip(
+#         g.nodes().cpu().numpy(),
+#         g.ndata['label'].cpu().numpy(),
+#         (g.ndata['feat'][:, 1:] > 0.5).sum(1).cpu().numpy()
+#     )), total=g.num_nodes()))
 
-with open('node.csv', 'w') as f:
-    f.write('id,mylabel,num_fields\n')
-    f.writelines(tqdm(','.join(str(int(j)) for j in i) + '\n' for i in zip(g.nodes().cpu().numpy(), g.ndata['feat'][:, 1:].argmax(1).cpu().numpy(), (g.ndata['feat'][:, 1:] > 0.5).sum(1).cpu().numpy()) if i[0] in edged_node))
+new_edge = []
+with open('./edge.csv', 'r') as f:
+    new_edge.append(f.readline().strip().split())
+    for l in f.readlines():
+        s, t, w = l.strip().split()
+        new_edge.append([str(old2new[int(s)]), str(old2new[int(t)]), w])
 
-test = set(authors_to_pred.cpu().numpy())
-
-train = {i for i in range(g.num_nodes()) if not i in test}
-
-print(len(test), len(edged_node))
+with open('./new_edge.csv', 'w') as f:
+    for l in new_edge:
+        f.write(','.join(l))
+        f.write('\n')

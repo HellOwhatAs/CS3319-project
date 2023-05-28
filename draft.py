@@ -34,7 +34,7 @@ coauthor_covid, ct, ca = coauthor_covid.to(device), ct.to(device), ca.to(device)
 g = dgl.graph((torch.cat((coauthor_covid[:, 0], coauthor_covid[:, 1])), torch.cat((coauthor_covid[:, 1], coauthor_covid[:, 0]))), num_nodes = len(ct), device=device)
 g.edata['t'] = torch.cat((coauthor_covid[:, 2], coauthor_covid[:, 2])).float()
 g.ndata['feat'] = torch.cat((torch.unsqueeze(ct, dim=1), ca), dim=1).float()
-g.ndata['label'] = torch.ones(ct.shape, device=device, dtype=torch.int64)                          # TODO: label 是什么呢？
-g.ndata['test_mask'] = torch.zeros(ct.shape, dtype=torch.bool, device=device)
-g.ndata['test_mask'][authors_to_pred] = True
-g.ndata['train_mask'] = ~g.ndata['test_mask']
+g.ndata['old_id'] = g.nodes()
+g = dgl.node_subgraph(g, authors_to_pred.to(device))
+new2old = authors_to_pred.numpy()
+old2new = {elem: i for i, elem in enumerate(authors_to_pred.numpy())}
