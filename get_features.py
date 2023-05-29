@@ -27,6 +27,18 @@ def get_features(g: dgl.DGLGraph):
     
     return res
 
+def make_classifier(pos, classes):
+    classifier_data = torch.stack([pos[classes == 0, :2].mean(0), pos[classes == 1, :2].mean(0), pos[classes == 2, :2].mean(0)])
+    center_class = classifier_data[:, 0].argmax(0).item()
+    classifier_data[center_class] *= 0
+    bridge_class = classifier_data[:, 1].argmax(0).item()
+    margin_class, = set(range(3)) - {center_class, bridge_class}
+    return {
+        center_class: 'center',
+        bridge_class: 'bridge',
+        margin_class: 'margin'
+    }
+
 if not os.path.exists('./cluster_pos.bin'):
     pos = get_features(g)
     torch.save(pos, './cluster_pos.bin')
@@ -44,19 +56,20 @@ pos[:, 1] /= 2
 classes = torch.from_numpy(classes)
 bc_idx = torch.argmax(pos[:, 1]).item()
 evc_idx = torch.argmax(pos[:, 2]).item()
-bc_class, evc_class = classes[bc_idx], classes[evc_idx]
+classifier = make_classifier(pos, classes)
 
 if __name__ == '__main__':
     import plotly.express as px
     import pandas as pd
 
     non_zero = g.ndata['feat'][:, 1:].sum(1) > 3
-    df = pd.DataFrame(pos[non_zero], columns=['DEG', 'BC', 'EVC'])
-    df['classes'] = classes[non_zero]
+    df = pd.DataFrame(pos[non_zero][:, :2], columns=['degree', 'betweenness centrality'])
+    df['classes'] = [classifier[i.item()] for i in classes[non_zero]]
+    df['weight'] = g.ndata['feat'][non_zero][:, 1:].sum(1).cpu().numpy()
+    df['node_id'] = g.ndata['old_id'][non_zero].cpu().numpy()
 
     from collections import Counter
-    print(Counter(classes.numpy()))
+    print({classifier[k]: v for k, v in Counter(classes.numpy()).items()})
 
-    fig = px.scatter_3d(df, x='DEG', y='BC', z='EVC', color='classes')
-    with open('cluster_result.html', 'w', encoding='utf-8') as f:
-        f.write(fig.to_html())
+    fig = px.scatter(df, x='degree', y='betweenness centrality', color='classes', size='weight', hover_data=['node_id'])
+    fig.write_html('cluster_result.html')
