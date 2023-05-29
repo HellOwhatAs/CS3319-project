@@ -1,17 +1,20 @@
 from typing import List
 
 class csv:
-    def __init__(self):
+    def __init__(self, length: int = None):
         self.maxview: int = 4
         self.labels: List[str]
         self.data: List[List[str]]
+        if not length is None:
+            self.labels = []
+            self.data = [[] for _ in range(length)]
 
     @classmethod
     def read(cls, fname: str, sep: str = ',', encoding = 'utf-8'):
         ret = cls()
         with open(fname, 'r', encoding=encoding) as f:
             ret.labels = [i.strip() for i in f.readline().strip().split(sep)]
-            ret.data = [[j.strip() for j in i.strip().split(sep)] for i in f.readlines()]
+            ret.data = [[j.strip() for j in i.strip().split(sep)] for i in f.readlines() if i.strip()]
         return ret
 
     def __str__(self) -> str:

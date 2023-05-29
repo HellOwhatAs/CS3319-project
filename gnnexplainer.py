@@ -1,11 +1,8 @@
-import dgl.function as fn
-import torch, dgl
+import torch
 import torch.nn as nn
-from dgl.data import CoraGraphDataset
 from dgl.nn.pytorch import GNNExplainer
 from model_def import GNN as Model
 from tqdm import tqdm
-import matplotlib.pyplot as plt
 from get_features import classes as cluster_label
 from mycsv import csv
 
@@ -29,7 +26,6 @@ if __name__ == '__main__':
     from draft import g, old2new
 
     g.ndata['label'] = cluster_label.to(device).long()
-    g.ndata['ori_id'] = g.nodes()
 
     features = g.ndata['feat']
     labels = g.ndata['label']
@@ -54,7 +50,6 @@ if __name__ == '__main__':
 
     node_csv = csv.read('./node.csv')
     edge_csv = csv.read('./edge.csv')
-    node_csv['label'] = [str(g.ndata['old_id'][i].item()) for i in g.nodes()]
     st = [f'{min(int(s), int(t))},{max(int(s), int(t))}' for s, t in zip(edge_csv['source'], edge_csv['target'])]
     k2idx = {elem: idx for idx, elem in enumerate(st)}
 

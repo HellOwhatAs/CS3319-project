@@ -27,21 +27,24 @@ def get_features(g: dgl.DGLGraph):
     
     return res
 
-if not os.path.exists('./cluster_label.bin'):
+if not os.path.exists('./cluster_pos.bin'):
     pos = get_features(g)
-    bc_idx = torch.argmax(pos[:, 1]).item()
-    evc_idx = torch.argmax(pos[:, 2]).item()
-    classes = KMeans(n_clusters=3, init=[pos[bc_idx].numpy(), pos[evc_idx].numpy(), [0, 0, 0]], n_init=1).fit_predict(
-        pos,
-        sample_weight = g.ndata['feat'][:, 1:].sum(1).cpu().numpy()
-    )
-    bc_class, evc_class = classes[bc_idx], classes[evc_idx]
-    classes = torch.from_numpy(classes)
-
-    torch.save((classes, pos, {'bc_class': bc_class, 'evc_class': evc_class}), './cluster_label.bin')
+    torch.save(pos, './cluster_pos.bin')
 else:
-    classes, pos, class_name = torch.load('./cluster_label.bin')
-    bc_class, evc_class = class_name['bc_class'], class_name['evc_class']
+    pos = torch.load('./cluster_pos.bin')
+
+pos[:, 0] /= 2
+pos[:, 1] *= 2
+classes = KMeans(n_clusters=3, n_init='auto').fit_predict(
+    pos[:, :2],
+    sample_weight = g.ndata['feat'][:, 1:].sum(1).cpu().numpy()
+)
+pos[:, 0] *= 2
+pos[:, 1] /= 2
+classes = torch.from_numpy(classes)
+bc_idx = torch.argmax(pos[:, 1]).item()
+evc_idx = torch.argmax(pos[:, 2]).item()
+bc_class, evc_class = classes[bc_idx], classes[evc_idx]
 
 if __name__ == '__main__':
     import plotly.express as px

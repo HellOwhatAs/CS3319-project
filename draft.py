@@ -41,3 +41,4 @@ old2new = {elem: i for i, elem in enumerate(authors_to_pred.numpy())}
 test_mask = torch.zeros(g.ndata['old_id'].shape, device=device, dtype=torch.bool)
 test_mask[::4] = 1
 g.ndata['test_mask'] = test_mask
+g.ndata['ori_id'] = g.nodes()
