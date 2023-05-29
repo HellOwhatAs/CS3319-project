@@ -8,9 +8,9 @@
 
 #### Explain 子图可视化
 网络可视化：
-![](assets/label.jpg)
+![](assets/new_label.jpg)
 |原图|子图|
 |-|-|
-|![](assets/bridge0.png)|![](assets/bridge1.png)|
-|![](assets/center0.png)|![](assets/center1.png)|
-|![](assets/margin0.png)|![](assets/margin1.png)|
+|![](assets/new_bridge0.jpg)|![](assets/new_bridge1.jpg)|
+|![](assets/new_center0.jpg)|![](assets/new_center1.jpg)|
+|![](assets/new_margin0.jpg)|![](assets/new_margin1.jpg)|
