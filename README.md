@@ -5,12 +5,18 @@
 - [x] 可视化子图
 - [ ] 使用提供的可视化工具
 
+#### 网络数据可视化
+节点的颜色表示该作者投稿最多的 field 
+边的颜色表示权重大小
+![](assets/max_field.jpg)
+
 #### 网络特征聚类结果
 ![](assets/cluster_result.jpeg)
 
-#### Explain 子图可视化
-网络可视化：
+#### 聚类得到的网络节点 Label
 ![](assets/new_label.jpg)
+
+#### Explain 子图可视化
 |原图|子图|
 |-|-|
 |![](assets/new_bridge0.jpg)|![](assets/new_bridge1.jpg)|

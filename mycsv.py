@@ -45,6 +45,7 @@ class csv:
         return [line[idx] for line in self.data]
     
     def __setitem__(self, col_name: str, obj: List[str]):
+        assert len(obj) == len(self)
         if col_name in self.labels:
             idx = self.labels.index(col_name)
             for line, val in zip(self.data, obj):
