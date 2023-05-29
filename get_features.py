@@ -71,5 +71,5 @@ if __name__ == '__main__':
     from collections import Counter
     print({classifier[k]: v for k, v in Counter(classes.numpy()).items()})
 
-    fig = px.scatter(df, x='degree', y='betweenness centrality', color='classes', size='weight', hover_data=['node_id'])
+    fig = px.scatter(df, x='degree', y='betweenness centrality', color='classes', size='weight', hover_data=['node_id'], size_max=40)
     fig.write_html('cluster_result.html')
