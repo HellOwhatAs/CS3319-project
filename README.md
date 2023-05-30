@@ -38,6 +38,9 @@
    python gnnexplainer.py
    ```
 
+## 4. 流程图
+![](./assets/flowchart.svg)
+
 ## TODO
 - [ ] 评价边
 - [x] 划分训练集和测试集
