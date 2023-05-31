@@ -1,10 +1,10 @@
 <mxfile host="65bd71144e">
     <diagram id="JqnhysbLDMa1ewz5sCEe" name="第 1 页">
-        <mxGraphModel dx="833" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1672" dy="1298" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="12" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;rounded=0;" parent="1" source="4" target="6" edge="1">
+                <mxCell id="12" value="" style="edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;rounded=0;" parent="1" source="4" target="6" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="539.8235294117646" y="470" as="targetPoint"/>
                         <Array as="points">
@@ -13,22 +13,22 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="17" style="edgeStyle=none;rounded=0;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="4" target="15" edge="1">
+                <mxCell id="17" value="" style="edgeStyle=none;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="4" target="15" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="460" y="165"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="19" style="edgeStyle=none;rounded=0;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="4" target="18" edge="1">
+                <mxCell id="19" value="" style="edgeStyle=none;rounded=0;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="4" target="18" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="400" y="120" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="4" value="数据处理（构建图）&lt;br&gt;(data → graph)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="4" value="数据处理（构建图）&#10;(data → graph)" style="rounded=0;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
                     <mxGeometry x="560" y="120" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;rounded=0;" parent="1" source="5" target="6" edge="1">
+                <mxCell id="11" value="" style="edgeStyle=none;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;rounded=0;" parent="1" source="5" target="6" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="460" y="410"/>
@@ -36,12 +36,12 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="20" style="edgeStyle=none;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="5" target="22" edge="1">
+                <mxCell id="20" value="" style="edgeStyle=none;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="5" target="22" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="340" y="320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="24" style="edgeStyle=none;rounded=0;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="5" target="25" edge="1">
+                <mxCell id="24" value="" style="edgeStyle=none;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="5" target="25" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="150" y="450" as="targetPoint"/>
                         <Array as="points">
@@ -50,16 +50,16 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="5" value="在 feature 空间上&lt;br&gt;聚类得到 label" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="5" value="在 feature 空间上&#10;聚类得到 label" style="rounded=0;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
                     <mxGeometry x="400" y="330" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="6" target="13" edge="1">
+                <mxCell id="14" value="" style="edgeStyle=none;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="6" target="13" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="GNN 模型 + 训练&lt;br&gt;（两层GraphSage）" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="6" value="GNN 模型 + 训练&#10;（两层GraphSage）" style="rounded=0;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
                     <mxGeometry x="480" y="470" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="7" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;rounded=0;" parent="1" source="6" target="4" edge="1">
+                <mxCell id="7" value="" style="endArrow=classic;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;rounded=0;" parent="1" source="6" target="4" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="620" y="499.5" as="sourcePoint"/>
                         <mxPoint x="720" y="499.5" as="targetPoint"/>
@@ -69,38 +69,38 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="8" value="authors_to_pred&lt;br&gt;不是测试集" style="edgeLabel;resizable=0;align=center;verticalAlign=middle;labelBorderColor=none;spacing=2;html=1;" parent="7" connectable="0" vertex="1">
+                <mxCell id="8" value="authors_to_pred&#10;不是测试集" style="edgeLabel;resizable=0;align=center;verticalAlign=middle;labelBorderColor=none;spacing=2;" parent="7" connectable="0" vertex="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-50" y="135" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="27" style="edgeStyle=none;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="13" target="26" edge="1">
+                <mxCell id="27" value="" style="edgeStyle=none;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="13" target="26" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="GNNExplainer&lt;br&gt;得到子图" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="13" value="GNNExplainer&#10;得到子图" style="rounded=0;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
                     <mxGeometry x="480" y="610" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="16" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="15" target="5" edge="1">
+                <mxCell id="16" value="" style="edgeStyle=none;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="15" target="5" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="15" value="图的结构 feature 构建&lt;br&gt;(DEG, BC)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="15" value="图的结构 feature 构建&#10;(DEG, BC)" style="rounded=0;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" parent="1" vertex="1">
                     <mxGeometry x="400" y="210" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="可视化" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="30" value="可视化" style="swimlane;" parent="1" vertex="1">
                     <mxGeometry x="90" y="70" width="280" height="640" as="geometry">
                         <mxRectangle x="90" y="70" width="140" height="30" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="18" value="图的可视化" style="rounded=0;whiteSpace=wrap;html=1;" parent="30" vertex="1">
+                <mxCell id="18" value="图的可视化" style="rounded=0;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="30" vertex="1">
                     <mxGeometry x="80" y="50" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="22" value="特征空间&lt;br&gt;聚类可视化" style="rounded=0;whiteSpace=wrap;html=1;" parent="30" vertex="1">
+                <mxCell id="22" value="特征空间&#10;聚类可视化" style="rounded=0;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" parent="30" vertex="1">
                     <mxGeometry x="120" y="260" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="图上 label&lt;br&gt;可视化" style="rounded=0;whiteSpace=wrap;html=1;" parent="30" vertex="1">
+                <mxCell id="25" value="图上 label&#10;可视化" style="rounded=0;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="30" vertex="1">
                     <mxGeometry x="70" y="370" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="23" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="30" source="18" target="25" edge="1">
+                <mxCell id="23" value="" style="edgeStyle=none;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="30" source="18" target="25" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="20" y="360" as="targetPoint"/>
                         <Array as="points">
@@ -109,10 +109,10 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="26" value="Explain 子图&lt;br&gt;可视化" style="rounded=0;whiteSpace=wrap;html=1;" parent="30" vertex="1">
+                <mxCell id="26" value="Explain 子图&#10;可视化" style="rounded=0;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="30" vertex="1">
                     <mxGeometry x="90" y="540" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="28" style="edgeStyle=none;rounded=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="30" source="18" target="26" edge="1">
+                <mxCell id="28" value="" style="edgeStyle=none;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="30" source="18" target="26" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="40" y="80"/>
