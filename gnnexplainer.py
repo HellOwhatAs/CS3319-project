@@ -61,7 +61,7 @@ if __name__ == '__main__':
     plt.xlabel('epoch')
     plt.ylabel('log(loss)')
     plt.tight_layout()
-    plt.savefig("./assets/loss_curve.svg", transparent=True)
+    plt.savefig("./assets/loss_curve.svg")
     plt.cla()
 
     plt.plot(acc_list)
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     plt.xlabel('epoch')
     plt.ylabel('logit(acc)')
     plt.tight_layout()
-    plt.savefig("./assets/acc_curve.svg", transparent=True)
+    plt.savefig("./assets/acc_curve.svg")
     plt.cla()
 
     node_csv = csv.read('./node.csv')
