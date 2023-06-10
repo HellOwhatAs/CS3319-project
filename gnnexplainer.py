@@ -26,6 +26,8 @@ if __name__ == '__main__':
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     from draft import g, old2new
+    import matplotlib.pyplot as plt
+    plt.style.use('ggplot')
 
     g.ndata['label'] = cluster_label.to(device).long()
 
@@ -53,8 +55,6 @@ if __name__ == '__main__':
             loss_list.append(loss.item()), acc_list.append(acc.item())
             tbar.set_postfix(loss = loss.item(), acc = acc.item())
             tbar.update()
-    import matplotlib.pyplot as plt
-    plt.style.use('ggplot')
 
     plt.plot(loss_list)
     plt.yscale("log")
