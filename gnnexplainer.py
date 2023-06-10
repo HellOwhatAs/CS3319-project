@@ -37,6 +37,9 @@ if __name__ == '__main__':
     model = Model(features.shape[1], 128, 3).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-2)
+
+    loss_list, acc_list = [], []
+
     with tqdm(range(2000), desc='GNN training') as tbar:
         for epoch in tbar:
             logits = model(g, features)
@@ -47,8 +50,27 @@ if __name__ == '__main__':
 
             with torch.no_grad():
                 acc = (labels[test_mask] == torch.argmax(logits[test_mask], 1)).sum() / test_mask.sum()
+            loss_list.append(loss.item()), acc_list.append(acc.item())
             tbar.set_postfix(loss = loss.item(), acc = acc.item())
             tbar.update()
+    import matplotlib.pyplot as plt
+    plt.style.use('ggplot')
+
+    plt.plot(loss_list)
+    plt.yscale("log")
+    plt.xlabel('epoch')
+    plt.ylabel('log(loss)')
+    plt.tight_layout()
+    plt.savefig("./assets/loss_curve.svg", transparent=True)
+    plt.cla()
+
+    plt.plot(acc_list)
+    plt.yscale('logit')
+    plt.xlabel('epoch')
+    plt.ylabel('logit(acc)')
+    plt.tight_layout()
+    plt.savefig("./assets/acc_curve.svg", transparent=True)
+    plt.cla()
 
     node_csv = csv.read('./node.csv')
     edge_csv = csv.read('./edge.csv')
